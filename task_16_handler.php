@@ -1,34 +1,19 @@
 <?php
-$pdo = new PDO('mysql:host=localhost;dbname=tasks', 'root', '');
 
-$images = $_FILES["image"];
-
-$normalizeImages = [];
-
-foreach ($images as $key => $attrs) {
-    foreach ($attrs as $index => $attr) {
-        $normalizeImages[$index][$key] = $attr;
-    }
+for ($i=0; $i < count($_FILES['image']['name']); $i++) {
+    upload_file($_FILES['image']['name'][$i], $_FILES['image']['tmp_name'][$i]);
 }
 
-foreach ($normalizeImages as $normalizeImage) {
+function upload_file($filename, $tmp_name) {
+    $result = pathinfo($filename);
+    $filename = uniqid() . "." .$result['extension'];
 
-    $img = uniqid() . $normalizeImage["name"];
-    $uploaddir = 'img/uploads/';
-    $uploadfile = $uploaddir . $img;
-
+    $pdo = new PDO('mysql:host=localhost;dbname=tasks', 'root', '');
     $sql = 'INSERT INTO image (images) VALUES (?)';
     $statement = $pdo->prepare($sql);
-    $statement->execute([$img]);
+    $statement->execute([$filename]);
 
-    if (!move_uploaded_file($normalizeImage['tmp_name'], $uploadfile)) {
-        echo "Error uploading file";
-        die();
-    }
+    move_uploaded_file($tmp_name, 'img/uploads/' . $filename);
 }
 
 header('Location:/task_16.php');
-
-
-
-
