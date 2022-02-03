@@ -1,10 +1,22 @@
 <?
-$arr = array(
-        'Reports',
-        'Analytics',
-        'Export',
-        'Storage'
-);
+$items = [
+    [
+       "title" => "Reports",
+       "tags"  => "reports file"
+    ],
+    [
+        "title" => "Analytics",
+        "tags"  => "analytics graphs"
+    ],
+    [
+        "title" => "Export",
+        "tags"  => "export download"
+    ],
+    [
+        "title" => "Storage",
+        "tags"  => "storage"
+    ],
+];
 ?>
 
 
@@ -54,9 +66,9 @@ $arr = array(
                                         </div>
                                     </div>
                                     <ul id="js-list-msg" class="list-group px-2 pb-2 js-list-filter">
-                                        <? foreach ($arr as $view) {?>
+                                        <? foreach ($items as $item) {?>
                                         <li class="list-group-item">
-                                            <span data-filter-tags="reports file"><? echo $view ?></span>
+                                            <span data-filter-tags="<? echo $item['tags'];?>"><? echo $item['title'];?></span>
                                         </li>
                                         <? }?>
                                     </ul>
